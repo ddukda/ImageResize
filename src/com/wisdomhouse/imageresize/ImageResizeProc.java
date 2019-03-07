@@ -65,27 +65,24 @@ public class ImageResizeProc {
 			
 			
 			// 합쳐진 이미지 자르고 리사이즈 작업
-			int height = _HEIGHT;
-			int cropHeight = 0;
-			
-			String resizeFilePath = originPath+"/resize/"+originFolder+"/";
+			String resizeFilePath = originPath+"/resize/"+originFolder+"/";		// resize 폴더 안에 원본 이미지 폴더명과 같은 폴더 생성
 			File dir = new File(resizeFilePath);
 			if(!dir.exists()) {
 				dir.mkdirs();
 			}
 			
-			double ratio; // 비율
-			int w;		  // 변하게 할 가로 사이즈
+			String imageFileName = "";				// 최종본 파일명 (001, 002...)
+			int height = _HEIGHT;					// 마지막 잘리는 이미지 높이 값이 변할 경우 때문에 변수 선언
+			int cropHeight = 0;						// 합쳐진 이미지를 자를 높이(-y 좌표)
+			int nIdx = originalSumHeight/_HEIGHT;	// 자르는 반복 횟수
 			
-			ratio = (double)_WIDTH/(double)maxWidth;
-			w = (int)(maxWidth*ratio);
+			double ratio = (double)_WIDTH/(double)maxWidth;	// 리사이즈 비율
+			int w = (int)(maxWidth*ratio);					// 리사이즈 가로 크기
 			
-			String imageFileName = "";
-			
-			for(int i=0; i<(originalSumHeight/_HEIGHT)+1; i++) {
+			for(int i=0; i<=nIdx; i++) {
 				imageFileName = numberToString(i+1) + "." + _IMAGE_EXT;
 				
-				if(originalSumHeight/_HEIGHT == i) { // 마지막 남은 이미지는 작을 수도 있음
+				if(nIdx == i) { // 마지막 남은 이미지는 작을 수도 있음
 					height = originalSumHeight%_HEIGHT; 
 					System.out.println("  last height : " + height);
 				}
@@ -104,6 +101,8 @@ public class ImageResizeProc {
 		} catch(Exception e) {
 			e.printStackTrace();
 			System.err.println(e);
+		} finally {
+			
 		}
 	}
 	
