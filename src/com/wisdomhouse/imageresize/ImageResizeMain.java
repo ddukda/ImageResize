@@ -18,6 +18,8 @@ public class ImageResizeMain {
 		String point = currentRelativePath.toAbsolutePath().toString();
 		
 		point = "C:/image";
+		System.out.println("start");	
+		System.out.println("> " + point);
 		
 		try {
 			
@@ -45,5 +47,6 @@ public class ImageResizeMain {
 		    e.printStackTrace();
 		    System.err.println(e);
 		}
+		System.out.println("end");
 	}
 }

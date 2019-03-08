@@ -7,8 +7,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -21,9 +19,6 @@ public class ImageResizeProc {
 		int maxWidth = 0;			// 원본 파일의 max 너비
 		int originalSumHeight = 0;  // 원본 파일 높이 합산
 		
-		List<String> pathList = new ArrayList<String>();		// 원본 이미지 폴더의 이미지 파일 경로 정보
-		List<Integer> heightList = new ArrayList<Integer>();	// 원본 이미지 폴더의 높이 정보
-		
 		try {
 			// 해당 폴더의 이미지 파일을 읽어 각각 원본 이미지 파일 경로와, 원본 이미지 파일들의 각각의 높이 및 합산 높이를 구함
 			File[] files = this.getFileNames(procPath, _IMAGE_EXT);
@@ -31,19 +26,18 @@ public class ImageResizeProc {
 			for(File file : files) {
 				String filePath = file.getPath().toString();
 				System.out.println("  "+filePath);
-				pathList.add(filePath);
 				BufferedImage image = null;
 				try {
 					image = ImageIO.read(file);
 				} catch (IOException e) {
 					e.printStackTrace();
+					System.err.println(e);
 				}
 				maxWidth = Math.max(image.getWidth(), maxWidth);
 				originalSumHeight += image.getHeight();
-				heightList.add(image.getHeight());
-				
-				
 			}
+			
+			System.out.println("  resizing...");
 			
 			// 이미지 합치기 작업
 			BufferedImage mergedImage = new BufferedImage(maxWidth, originalSumHeight, BufferedImage.TYPE_INT_RGB);
@@ -51,18 +45,15 @@ public class ImageResizeProc {
 			graphics.setBackground(Color.WHITE);
 			
 			int getHeight = 0;
-			int cnt = 0;
-			for(String filePath : pathList) {
-				File file = new File(filePath);
+			for(File file : files) {
 				try {
 					BufferedImage image = ImageIO.read(file);
 					graphics.drawImage(image, 0, getHeight, null);
-					getHeight += heightList.get(cnt++);
+					getHeight += image.getHeight();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-			
 			
 			// 합쳐진 이미지 자르고 리사이즈 작업
 			String resizeFilePath = originPath+"/resize/"+originFolder+"/";		// resize 폴더 안에 원본 이미지 폴더명과 같은 폴더 생성
