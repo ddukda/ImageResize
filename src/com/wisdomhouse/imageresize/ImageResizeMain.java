@@ -7,8 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class ImageResizeMain {
-	static final int _HEIGHT = 1080;
-	static final int _WIDTH = 690;
 	
 	public static void main(String[] args) {
 		ImageResizeProc irp = new ImageResizeProc();
