@@ -26,15 +26,15 @@ public class ImageResizeProc {
 			for(File file : files) {
 				String filePath = file.getPath().toString();
 				System.out.println("  "+filePath);
-				BufferedImage image = null;
+				BufferedImage bufferedImage = null;
 				try {
-					image = ImageIO.read(file);
+					bufferedImage = ImageIO.read(file);
 				} catch (IOException e) {
 					e.printStackTrace();
 					System.err.println(e);
 				}
-				maxWidth = Math.max(image.getWidth(), maxWidth);
-				originalSumHeight += image.getHeight();
+				maxWidth = Math.max(bufferedImage.getWidth(), maxWidth);
+				originalSumHeight += bufferedImage.getHeight();
 			}
 			
 			System.out.println("  resizing...");
@@ -47,9 +47,20 @@ public class ImageResizeProc {
 			int getHeight = 0;
 			for(File file : files) {
 				try {
-					BufferedImage image = ImageIO.read(file);
-					graphics.drawImage(image, 0, getHeight, null);
-					getHeight += image.getHeight();
+					
+					BufferedImage bufferedImage = ImageIO.read(file);
+					
+					if(maxWidth != bufferedImage.getWidth()) {
+						Image resizeImage = bufferedImage.getScaledInstance(maxWidth, bufferedImage.getHeight(), Image.SCALE_SMOOTH);
+						BufferedImage newImage = new BufferedImage(maxWidth, bufferedImage.getHeight(), BufferedImage.TYPE_INT_RGB);
+						Graphics g = newImage.getGraphics();
+						g.drawImage(resizeImage, 0, 0, null);
+						g.dispose();	
+						graphics.drawImage(newImage, 0, getHeight, null);
+					} else {
+						graphics.drawImage(bufferedImage, 0, getHeight, null);
+					}
+					getHeight += bufferedImage.getHeight();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
