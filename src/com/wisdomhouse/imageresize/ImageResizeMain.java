@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 
 public class ImageResizeMain {
 	static final int _HEIGHT = 1080;
-	static final int _WIDTH = 720;
+	static final int _WIDTH = 690;
 	
 	public static void main(String[] args) {
 		ImageResizeProc irp = new ImageResizeProc();
@@ -16,7 +16,7 @@ public class ImageResizeMain {
 		// 프로그램이 실행되는 위치의 경로 확인
 		Path currentRelativePath = Paths.get("");
 		String point = currentRelativePath.toAbsolutePath().toString();
-		point = "C:/image";
+//		point = "C:/image";
 		System.out.println("start");	
 		System.out.println("> " + point);
 		
