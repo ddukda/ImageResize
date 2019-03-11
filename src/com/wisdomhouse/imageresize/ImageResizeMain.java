@@ -16,7 +16,7 @@ public class ImageResizeMain {
 		// 프로그램이 실행되는 위치의 경로 확인
 		Path currentRelativePath = Paths.get("");
 		String point = currentRelativePath.toAbsolutePath().toString();
-		
+		point = "C:/image";
 		System.out.println("start");	
 		System.out.println("> " + point);
 		

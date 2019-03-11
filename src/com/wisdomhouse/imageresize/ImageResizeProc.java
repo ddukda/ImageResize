@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 
 public class ImageResizeProc {
 	static final int _HEIGHT = 1080;
-	static final int _WIDTH = 690;
+	static final int _WIDTH = 720;
 	static final String _IMAGE_EXT = "jpg";
 	
 	public void proc(String procPath, String originPath, String originFolder) {
@@ -57,6 +57,7 @@ public class ImageResizeProc {
 						g.drawImage(resizeImage, 0, 0, null);
 						g.dispose();	
 						graphics.drawImage(newImage, 0, getHeight, null);
+						System.out.println("   > different Width Image : " + file.getName());
 					} else {
 						graphics.drawImage(bufferedImage, 0, getHeight, null);
 					}
